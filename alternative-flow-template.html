@@ -1,0 +1,80 @@
+<!-- Alternative approach if the above doesn't work -->
+<!-- This creates a custom flow visualization without relying on specific @foblex/flow properties -->
+
+<div *ngIf="showFlowView" class="flow-view-custom">
+  <div class="flow-canvas">
+    <!-- Custom node rendering -->
+    <div 
+      *ngFor="let node of flowNodes" 
+      class="flow-node-custom"
+      [ngClass]="'node-type-' + node.data.type"
+      [style.left.px]="node.position.x"
+      [style.top.px]="node.position.y"
+      [style.width.px]="180"
+      [style.height.px]="100"
+      (click)="onFlowNodeClick(node)"
+      (dblclick)="onFlowNodeDoubleClick(node)">
+      
+      <div class="node-header">
+        <i [class]="getNodeIcon(node.data.type)"></i>
+        <span class="node-title">{{ node.data.label }}</span>
+      </div>
+      <div class="node-content">
+        {{ truncateText(node.data.bodyText, 25) }}
+      </div>
+      
+      <!-- Node connectors -->
+      <div class="node-input" [attr.data-node-id]="node.id"></div>
+      <div class="node-output" [attr.data-node-id]="node.id"></div>
+    </div>
+
+    <!-- SVG for connections -->
+    <svg class="connections-svg" *ngIf="flowConnections.length > 0">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                refX="9" refY="3.5" orient="auto" markerUnits="strokeWidth">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+        </marker>
+        <marker id="arrowhead-dashed" markerWidth="10" markerHeight="7" 
+                refX="9" refY="3.5" orient="auto" markerUnits="strokeWidth">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b35" />
+        </marker>
+      </defs>
+      
+      <g *ngFor="let conn of flowConnections">
+        <path 
+          [attr.d]="getConnectionPath(conn)"
+          [attr.stroke]="conn.isDashed ? '#ff6b35' : '#666'"
+          [attr.stroke-width]="conn.isDashed ? 3 : 2"
+          [attr.stroke-dasharray]="conn.isDashed ? '5,5' : 'none'"
+          [attr.marker-end]="conn.isDashed ? 'url(#arrowhead-dashed)' : 'url(#arrowhead)'"
+          fill="none"
+          class="connection-path"
+          (click)="onFlowConnectionClick(conn)">
+        </path>
+        
+        <text 
+          *ngIf="conn.label"
+          [attr.x]="getConnectionLabelPosition(conn).x"
+          [attr.y]="getConnectionLabelPosition(conn).y"
+          text-anchor="middle"
+          class="connection-label-svg">
+          {{ conn.label }}
+        </text>
+      </g>
+    </svg>
+  </div>
+  
+  <!-- Flow controls -->
+  <div class="flow-controls">
+    <button class="flow-btn" (click)="zoomIn()">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <button class="flow-btn" (click)="zoomOut()">
+      <i class="fa-solid fa-minus"></i>
+    </button>
+    <button class="flow-btn" (click)="resetZoom()">
+      <i class="fa-solid fa-expand"></i>
+    </button>
+  </div>
+</div>

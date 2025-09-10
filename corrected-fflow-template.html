@@ -1,0 +1,107 @@
+<!-- Option 1: Try the simpler approach first -->
+<div class="flow-container" *ngIf="showFlowView">
+  <f-flow 
+    class="flow-canvas">
+    
+    <!-- Create nodes dynamically -->
+    <div 
+      *ngFor="let node of flowNodes" 
+      class="custom-flow-node"
+      [ngClass]="'node-type-' + node.data.type"
+      [style.left.px]="node.position.x"
+      [style.top.px]="node.position.y"
+      [attr.data-node-id]="node.id"
+      (click)="onFlowNodeClick(node)">
+      
+      <div class="node-icon">
+        <i [class]="getNodeIcon(node.data.type)"></i>
+      </div>
+      <div class="node-content">
+        <div class="node-title">{{ node.data.label }}</div>
+        <div class="node-body" *ngIf="node.data.bodyText">
+          {{ truncate(node.data.bodyText, 30) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Create connections using SVG -->
+    <svg class="connections-layer" *ngIf="flowConnections.length > 0">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+        </marker>
+      </defs>
+      
+      <g *ngFor="let conn of flowConnections">
+        <line 
+          [attr.x1]="getNodePosition(conn.sourceId).x + 100"
+          [attr.y1]="getNodePosition(conn.sourceId).y + 25"
+          [attr.x2]="getNodePosition(conn.targetId).x"
+          [attr.y2]="getNodePosition(conn.targetId).y + 25"
+          stroke="#666" 
+          stroke-width="2"
+          [attr.stroke-dasharray]="conn.isDashed ? '5,5' : null"
+          marker-end="url(#arrowhead)"
+          (click)="onFlowConnectionClick(conn)">
+        </line>
+        
+        <text 
+          *ngIf="conn.label"
+          [attr.x]="(getNodePosition(conn.sourceId).x + getNodePosition(conn.targetId).x + 100) / 2"
+          [attr.y]="(getNodePosition(conn.sourceId).y + getNodePosition(conn.targetId).y + 50) / 2"
+          text-anchor="middle"
+          class="connection-label">
+          {{ conn.label }}
+        </text>
+      </g>
+    </svg>
+  </f-flow>
+
+  <button class="toggle-view-btn" (click)="toggleView()">
+    {{ "RETURN_TO_TREE_VIEW" | translate }}
+  </button>
+</div>
+
+<!-- Option 2: If @foblex/flow has specific component structure -->
+<div class="flow-container-v2" *ngIf="showFlowView && false">
+  <f-flow>
+    <!-- Try without property bindings first -->
+    <f-node *ngFor="let node of flowNodes" 
+            [id]="node.id"
+            class="custom-flow-node">
+      <div class="node-content">
+        <div class="node-icon">
+          <i [class]="getNodeIcon(node.data.type)"></i>
+        </div>
+        <div class="node-title">{{ node.data.label }}</div>
+        <div class="node-body">{{ truncate(node.data.bodyText, 30) }}</div>
+      </div>
+    </f-node>
+  </f-flow>
+</div>
+
+<!-- Option 3: Fallback to canvas-based approach -->
+<div class="flow-container-canvas" *ngIf="showFlowView && false">
+  <div class="flow-viewport">
+    <div 
+      *ngFor="let node of flowNodes" 
+      class="flow-node"
+      [ngClass]="'node-type-' + node.data.type"
+      [style.transform]="'translate(' + node.position.x + 'px, ' + node.position.y + 'px)'"
+      (click)="onFlowNodeClick(node)">
+      
+      <div class="node-header">
+        <i [class]="getNodeIcon(node.data.type)"></i>
+        <span>{{ node.data.label }}</span>
+      </div>
+      <div class="node-body" *ngIf="node.data.bodyText">
+        {{ truncate(node.data.bodyText, 30) }}
+      </div>
+    </div>
+  </div>
+  
+  <button class="toggle-view-btn" (click)="toggleView()">
+    {{ "RETURN_TO_TREE_VIEW" | translate }}
+  </button>
+</div>

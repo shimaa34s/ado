@@ -1,0 +1,265 @@
+// Add these styles to your component's SCSS file
+
+.flow-container {
+  width: 100%;
+  height: 600px;
+  border: 1px solid #ddd;
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+  
+  f-flow {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+}
+
+.flow-canvas {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.custom-flow-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: white;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  min-width: 120px;
+  max-width: 200px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+  }
+  
+  .node-icon {
+    margin-right: 8px;
+    color: #007bff;
+    font-size: 14px;
+  }
+  
+  .node-content {
+    flex: 1;
+    
+    .node-title {
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 2px;
+      color: #333;
+    }
+    
+    .node-body {
+      font-size: 10px;
+      color: #666;
+      line-height: 1.2;
+    }
+  }
+}
+
+// Different node type styles
+.node-type-section { 
+  border-color: #31708f; 
+  .node-icon { color: #31708f; }
+}
+
+.node-type-button { 
+  border-color: var(--primary-color, #007bff); 
+  .node-icon { color: var(--primary-color, #007bff); }
+}
+
+.node-type-list { 
+  border-color: #27667B; 
+  .node-icon { color: #27667B; }
+}
+
+.node-type-flow { 
+  border-color: #C599B6; 
+  .node-icon { color: #C599B6; }
+}
+
+.node-type-welcome_message { 
+  border-color: #A6B28B; 
+  .node-icon { color: #A6B28B; }
+}
+
+.node-type-list_set_message { 
+  border-color: #2196F3; 
+  .node-icon { color: #2196F3; }
+}
+
+.node-type-search_flow_message { 
+  border-color: #BB6653; 
+  .node-icon { color: #BB6653; }
+}
+
+.node-type-catalog_message { 
+  border-color: #932F67; 
+  .node-icon { color: #932F67; }
+}
+
+.node-type-order_summary { 
+  border-color: #607D8B; 
+  .node-icon { color: #607D8B; }
+}
+
+.node-type-checkout_message { 
+  border-color: #8E7DBE; 
+  .node-icon { color: #8E7DBE; }
+}
+
+.node-type-add_edit_address { 
+  border-color: #795548; 
+  .node-icon { color: #795548; }
+}
+
+.node-type-confirm_order { 
+  border-color: #006A71; 
+  .node-icon { color: #006A71; }
+}
+
+.node-type-payment_choice { 
+  border-color: #ADB2D4; 
+  .node-icon { color: #ADB2D4; }
+}
+
+// Connections
+.connections-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  
+  line {
+    pointer-events: stroke;
+    cursor: pointer;
+    
+    &:hover {
+      stroke-width: 3;
+    }
+  }
+}
+
+.connection-label {
+  background: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 10px;
+  border: 1px solid #ddd;
+  fill: #333;
+  pointer-events: none;
+}
+
+// Toggle buttons
+.toggle-view-btn, .view-toggle-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 20;
+  font-size: 12px;
+  
+  &:hover {
+    background: #0056b3;
+  }
+  
+  &:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+}
+
+// Alternative canvas-based approach
+.flow-container-canvas {
+  width: 100%;
+  height: 600px;
+  border: 1px solid #ddd;
+  position: relative;
+  overflow: auto;
+  background: #f8f9fa;
+}
+
+.flow-viewport {
+  position: relative;
+  width: 2000px;
+  height: 1500px;
+  background-image: 
+    radial-gradient(circle, #ddd 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.flow-node {
+  position: absolute;
+  background: white;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 120px;
+  max-width: 200px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  
+  .node-header {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 4px;
+    
+    i {
+      margin-right: 6px;
+    }
+  }
+  
+  .node-body {
+    font-size: 10px;
+    color: #666;
+    line-height: 1.2;
+  }
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .flow-container {
+    height: 400px;
+  }
+  
+  .custom-flow-node {
+    min-width: 100px;
+    padding: 6px 8px;
+    
+    .node-title {
+      font-size: 11px;
+    }
+    
+    .node-body {
+      font-size: 9px;
+    }
+  }
+  
+  .toggle-view-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+}
