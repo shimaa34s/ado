@@ -1,0 +1,34 @@
+<!-- Replace your flow view section with this corrected version -->
+<div *ngIf="showFlowView" class="flow-view">
+  <f-flow>
+    <!-- Create nodes individually using f-node -->
+    <f-node 
+      *ngFor="let node of flowNodes" 
+      [fNodeId]="node.id"
+      [fNodePosition]="node.position"
+      [fNodeSize]="{ width: 180, height: 100 }"
+      fNodeOutput="output"
+      fNodeInput="input"
+      (fNodeSelection)="onFlowNodeSelect($event)"
+      class="custom-flow-node"
+      [attr.data-node-type]="node.data.type">
+      
+      <div class="node-header">
+        <i [class]="getNodeIcon(node.data.type)"></i>
+        <span class="node-title">{{ node.data.label }}</span>
+      </div>
+      <div class="node-content">
+        {{ truncateText(node.data.bodyText, 25) }}
+      </div>
+    </f-node>
+
+    <!-- Create connections individually using f-connection -->
+    <f-connection 
+      *ngFor="let conn of flowConnections"
+      [fConnectionId]="conn.id"
+      [fOutputId]="conn.sourceId + '-output'"
+      [fInputId]="conn.targetId + '-input'"
+      (fConnectionSelection)="onFlowConnectionClick($event)">
+    </f-connection>
+  </f-flow>
+</div>

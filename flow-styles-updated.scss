@@ -1,0 +1,319 @@
+// Updated styles for the flow view - add these to your component SCSS
+
+.flow-view {
+  width: 100%;
+  height: 600px;
+  border: 1px solid #ddd;
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.flow-view-custom {
+  width: 100%;
+  height: 600px;
+  border: 1px solid #ddd;
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.flow-canvas {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.2s ease;
+}
+
+.flow-node-custom {
+  position: absolute;
+  background: white;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+  }
+  
+  &.selected {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+  }
+  
+  .node-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    background: rgba(0, 123, 255, 0.1);
+    border-bottom: 1px solid #e9ecef;
+    font-weight: bold;
+    font-size: 12px;
+    
+    i {
+      margin-right: 6px;
+      color: #007bff;
+    }
+    
+    .node-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  
+  .node-content {
+    padding: 8px 10px;
+    font-size: 11px;
+    color: #666;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  
+  .node-input, .node-output {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #007bff;
+    border: 2px solid white;
+    border-radius: 50%;
+    z-index: 15;
+  }
+  
+  .node-input {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .node-output {
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+// Node type specific styles
+.node-type-section { 
+  border-color: #31708f; 
+  .node-header { background: rgba(49, 112, 143, 0.1); }
+  .node-header i { color: #31708f; }
+  .node-input, .node-output { background: #31708f; }
+}
+
+.node-type-button { 
+  border-color: var(--primary-color, #007bff); 
+  .node-header { background: rgba(0, 123, 255, 0.1); }
+  .node-header i { color: var(--primary-color, #007bff); }
+  .node-input, .node-output { background: var(--primary-color, #007bff); }
+}
+
+.node-type-list { 
+  border-color: #27667B; 
+  .node-header { background: rgba(39, 102, 123, 0.1); }
+  .node-header i { color: #27667B; }
+  .node-input, .node-output { background: #27667B; }
+}
+
+.node-type-flow { 
+  border-color: #C599B6; 
+  .node-header { background: rgba(197, 153, 182, 0.1); }
+  .node-header i { color: #C599B6; }
+  .node-input, .node-output { background: #C599B6; }
+}
+
+.node-type-welcome_message { 
+  border-color: #A6B28B; 
+  .node-header { background: rgba(166, 178, 139, 0.1); }
+  .node-header i { color: #A6B28B; }
+  .node-input, .node-output { background: #A6B28B; }
+}
+
+.node-type-list_set_message { 
+  border-color: #2196F3; 
+  .node-header { background: rgba(33, 150, 243, 0.1); }
+  .node-header i { color: #2196F3; }
+  .node-input, .node-output { background: #2196F3; }
+}
+
+.node-type-search_flow_message { 
+  border-color: #BB6653; 
+  .node-header { background: rgba(187, 102, 83, 0.1); }
+  .node-header i { color: #BB6653; }
+  .node-input, .node-output { background: #BB6653; }
+}
+
+.node-type-catalog_message { 
+  border-color: #932F67; 
+  .node-header { background: rgba(147, 47, 103, 0.1); }
+  .node-header i { color: #932F67; }
+  .node-input, .node-output { background: #932F67; }
+}
+
+.node-type-order_summary { 
+  border-color: #607D8B; 
+  .node-header { background: rgba(96, 125, 139, 0.1); }
+  .node-header i { color: #607D8B; }
+  .node-input, .node-output { background: #607D8B; }
+}
+
+.node-type-checkout_message { 
+  border-color: #8E7DBE; 
+  .node-header { background: rgba(142, 125, 190, 0.1); }
+  .node-header i { color: #8E7DBE; }
+  .node-input, .node-output { background: #8E7DBE; }
+}
+
+.node-type-add_edit_address { 
+  border-color: #795548; 
+  .node-header { background: rgba(121, 85, 72, 0.1); }
+  .node-header i { color: #795548; }
+  .node-input, .node-output { background: #795548; }
+}
+
+.node-type-confirm_order { 
+  border-color: #006A71; 
+  .node-header { background: rgba(0, 106, 113, 0.1); }
+  .node-header i { color: #006A71; }
+  .node-input, .node-output { background: #006A71; }
+}
+
+.node-type-payment_choice { 
+  border-color: #ADB2D4; 
+  .node-header { background: rgba(173, 178, 212, 0.1); }
+  .node-header i { color: #ADB2D4; }
+  .node-input, .node-output { background: #ADB2D4; }
+}
+
+// SVG connections
+.connections-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.connection-path {
+  pointer-events: stroke;
+  cursor: pointer;
+  stroke-width: 2;
+  transition: stroke-width 0.2s ease;
+  
+  &:hover {
+    stroke-width: 3;
+  }
+}
+
+.connection-label-svg {
+  font-size: 10px;
+  fill: #333;
+  background: white;
+  pointer-events: none;
+}
+
+// Flow controls
+.flow-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 20;
+}
+
+.flow-btn {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  i {
+    font-size: 14px;
+    color: #666;
+  }
+}
+
+// View toggle button
+.view-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+  
+  button {
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s ease;
+    
+    &:hover {
+      background: #0056b3;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .flow-view, .flow-view-custom {
+    height: 400px;
+  }
+  
+  .flow-node-custom {
+    width: 140px !important;
+    height: 80px !important;
+    
+    .node-header {
+      padding: 6px 8px;
+      font-size: 11px;
+    }
+    
+    .node-content {
+      padding: 6px 8px;
+      font-size: 10px;
+    }
+  }
+  
+  .flow-controls {
+    top: 5px;
+    right: 5px;
+  }
+  
+  .flow-btn {
+    width: 35px;
+    height: 35px;
+    
+    i {
+      font-size: 12px;
+    }
+  }
+}
